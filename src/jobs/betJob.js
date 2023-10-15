@@ -21,7 +21,8 @@ async function betJob(){
   cron.schedule('* * * * *', async () => {
     const hundredDrawn = hundredDrawer()
     const animalDrawn = findAnimalByTen(hundredDrawn)
-    const { channel } = await startRabbitmqServer('sua_uri_do_rabbitmq');
+    const { channel } = await startRabbitmqServer('amqp://localhost');
+    
     const drawn = {
       id: v4(),
       hundredDrawn,
