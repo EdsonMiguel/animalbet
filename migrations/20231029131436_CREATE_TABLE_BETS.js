@@ -4,12 +4,12 @@
  */
 exports.up = function(knex) {
   return knex.schema
-    .createTable('draws', function (table) {
-      table.string('id', 100);
-      table.integer('hundredDrawn');
-      table.string('animalDrawn', 100);
-      table.dateTime('drawnAt');
-    });
+  .createTable('draws', function (table) {
+    table.string('id', 100);
+    table.integer('hundredDrawn');
+    table.string('animalDrawn', 100);
+    table.dateTime('drawnAt');
+  });
 };
 
 /**
@@ -17,5 +17,5 @@ exports.up = function(knex) {
  * @returns { Promise<void> }
  */
 exports.down = function(knex) {
-  return knex.schema.dropTableIfExists ('draws')
+  return knex.schema.dropTableIfExists('draws')
 };

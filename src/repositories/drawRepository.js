@@ -1,4 +1,4 @@
-const knexConfig = require('../../db/knexfile')[process.env.ENV || 'development']
+const knexConfig = require('../../knexfile')[process.env.ENV || 'development']
 const knex = require('knex')(knexConfig)
 
 const add = async (drawn) => await knex('draws').insert(drawn) 

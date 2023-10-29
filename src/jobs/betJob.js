@@ -9,6 +9,7 @@ const {
 
 async function betJob(){
   const hundredDrawer = () => Math.floor(Math.random() * 99);
+  const { channel } = await startRabbitmqServer(process.env.RABBITMQ_URL);
   
   const findAnimalByTen = (ten) =>{
     for (const animal in animals) {
@@ -21,7 +22,6 @@ async function betJob(){
   cron.schedule('* * * * *', async () => {
     const hundredDrawn = hundredDrawer()
     const animalDrawn = findAnimalByTen(hundredDrawn)
-    const { channel } = await startRabbitmqServer('amqp://localhost');
     
     const drawn = {
       id: v4(),
@@ -29,7 +29,11 @@ async function betJob(){
       animalDrawn,
       drawnAt: new Date()
     }
-    await publishInExchange(channel, "root", "*", JSON.stringify(drawn))
+    try {
+      await publishInExchange(channel, "draws", '', JSON.stringify(drawn))
+    } catch (error) {
+      console.log(`Falha ao enviar mensagem a fila: `, error)
+    }
     await add(drawn)
   });
 }
